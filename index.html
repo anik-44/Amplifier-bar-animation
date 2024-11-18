@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .visualizer-container {
+      margin: 75px auto;
+      border: 10px solid black;
+      width: 750px;
+      height: 250px;
+      display: flex;
+      position: relative;
+      background-color: hsl(0deg 0% 0%);
+    }
+
+    .bar {
+      width: 150px;
+      position: absolute;
+      bottom: 0px;
+      height: 250px;
+      transform-origin: bottom;
+      animation-duration: 3s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+
+    .bar-1 {
+      left: 0px;
+      background-color: hsl(271.76deg 100% 50%);
+
+    }
+
+    .bar-2 {
+      left: 150px;
+      background-color: hsl(318.4deg 100% 46.67%);
+    }
+
+    .bar-3 {
+      left: 300px;
+      background-color: hsl(9.3deg 100% 60.78%);
+    }
+
+    .bar-4 {
+      left: 450px;
+      background-color: hsl(10.61deg 77.36% 58.43%);
+    }
+
+    .bar-5 {
+      left: 600px;
+      background-color: hsl(47.76deg 67.12% 57.06%);
+    }
+
+
+    @keyframes bar-1 {
+
+      0% {
+        height: 250px;
+      }
+
+      25% {
+        height: 200px;
+      }
+
+      50% {
+        height: 150px;
+      }
+
+      75% {
+        height: 50px;
+      }
+
+      100% {
+        height: 0px;
+      }
+    }
+
+    @keyframes bar-2 {
+
+      0% {
+        height: 250px;
+      }
+
+      100% {
+        height: 80px;
+      }
+
+      25% {
+        height: 80px;
+      }
+
+      50% {
+        height: 120px;
+      }
+
+      75% {
+        height: 220px;
+      }
+    }
+
+    @keyframes bar-3 {
+
+      0% {
+        height: 250px;
+      }
+
+      100% {
+        height: 150px;
+      }
+
+      25% {
+        height: 100px;
+      }
+
+      50% {
+        height: 200px;
+      }
+
+      75% {
+        height: 150px;
+      }
+    }
+
+    @keyframes bar-4 {
+
+      0% {
+        height: 250px;
+      }
+
+      100% {
+        height: 50px;
+      }
+
+      25% {
+        height: 70px;
+      }
+
+      50% {
+        height: 160px;
+      }
+
+      75% {
+        height: 90px;
+      }
+    }
+
+    @keyframes bar-5 {
+
+      0% {
+        height: 250px;
+      }
+
+      100% {
+        height: 100px;
+      }
+
+      25% {
+        height: 60px;
+      }
+
+      50% {
+        height: 140px;
+      }
+
+      75% {
+        height: 190px;
+      }
+    }
+
+    /* buttons */
+    .btn-container {
+      display: flex;
+      width: 750px;
+      justify-content: space-evenly;
+    }
+
+    .btn-general {
+      border: 0;
+      outline: 0;
+      padding: 7px 25px;
+      color: white
+    }
+
+    .btn-start {
+      background-color: hsl(154.39deg 100% 30.78%);
+    }
+
+    .btn-reset {
+      background-color: hsl(271.76deg 100% 50%)
+    }
+
+    .btn-stop {
+      background-color: hsl(343.8deg 100% 46.47%);
+    }
+
+    .remove-animation {
+      animation: none !important;
+
+    }
+
+    @keyframes growHeight {
+
+      25% {
+        height: 150px;
+      }
+
+      100% {
+        height: 250px;
+      }
+    }
+  </style>
+
+</head>
+
+
+<body>
+  <!--Visualizer-->
+  <div class="visualizer-container">
+    <div class="bar bar-1"></div>
+    <div class="bar bar-2"></div>
+    <div class="bar bar-3"></div>
+    <div class="bar bar-4"></div>
+    <div class="bar bar-5"></div>
+  </div>
+
+  <!-- Buttons-->
+  <div class="btn-container">
+    <!--start-->
+    <button class="btn-general btn-start">Start</button>
+    <!--reset-->
+    <button class="btn-general btn-reset">Reset</button>
+    <!--stop-->
+    <button class="btn-general btn-stop">Stop</button>
+
+  </div>
+
+
+  <script>
+    const bars = document.querySelectorAll('.bar');
+    const start = document.querySelector(".btn-start");
+    const stop = document.querySelector(".btn-stop");
+    const reset = document.querySelector(".btn-reset");
+
+    start.addEventListener('click', () => {
+      for (let i = 0; i < bars.length; i++) {
+        bars[i].classList.remove("remove-animation");
+        bars[i].style.animationName = `bar-${i + 1}`;
+        bars[i].style.animationPlayState = "running";
+      }
+    })
+
+
+    stop.addEventListener('click', () => {
+      for (let i = 0; i < bars.length; i++) {
+        bars[i].style.animationPlayState = "paused";
+      }
+    })
+
+    reset.addEventListener('click', () => {
+      setTimeout(() => {
+        for (let i = bars.length-1; i >= 0; i--) {
+          bars[i].style.animation = `growHeight 1s ease-out ${i * 0.1}s 1`;
+        }
+      }, 50);
+
+      setTimeout(() => {
+        bars.forEach(bar => {
+          bar.style.animation = '';
+        })
+      }, 500)
+
+    })
+  </script>
+</body>
+
+</html>
